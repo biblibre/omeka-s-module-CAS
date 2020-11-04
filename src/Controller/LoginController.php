@@ -111,7 +111,7 @@ class LoginController extends AbstractActionController
         if (!$casUser) {
             $user = new User();
             $user->setName($cas['user']);
-            $user->setEmail('');
+            $user->setEmail($cas['user']);
             $user->setRole($this->settings()->get('cas_role', Acl::ROLE_RESEARCHER));
             $user->setIsActive(true);
 
