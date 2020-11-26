@@ -25,16 +25,15 @@ use Zend\View\Helper\AbstractHelper;
 
 class CasLoginUrl extends AbstractHelper
 {
-    public function __invoke()
+    public function __invoke(array $options = [])
     {
         $view = $this->getView();
 
-        $url = sprintf(
-            '%s/login?service=%s',
-            $view->setting('cas_url'),
-            $view->url('cas/login', [], ['force_canonical' => true])
-        );
+        $query = [];
+        if (!empty($options['redirect_url'])) {
+            $query['redirect_url'] = $options['redirect_url'];
+        }
 
-        return $url;
+        return $view->url('cas/login', [], ['force_canonical' => true, 'query' => $query]);
     }
 }

@@ -45,6 +45,22 @@ class LoginController extends AbstractActionController
 
     public function loginAction ()
     {
+        $ticket = $this->params()->fromQuery('ticket');
+        if (!isset($ticket)) {
+            $redirectUrl = $this->params()->fromQuery('redirect_url');
+            if (isset($redirectUrl)) {
+                $session = Container::getDefaultManager()->getStorage();
+                $session->offsetSet('redirect_url', $redirectUrl);
+            }
+
+            $casUrl = sprintf(
+                '%s/login?service=%s',
+                $this->settings()->get('cas_url'),
+                $this->url()->fromRoute('cas/login', [], ['force_canonical' => true])
+            );
+            return $this->redirect()->toUrl($casUrl);
+        }
+
         $response = $this->serviceValidate($this->params()->fromQuery('ticket'));
         if (!$response->isOk()) {
             $this->messenger()->addError($this->translate('Failed to validate CAS ticket'));
