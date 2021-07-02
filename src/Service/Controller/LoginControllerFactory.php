@@ -23,7 +23,7 @@ namespace CAS\Service\Controller;
 
 use Interop\Container\ContainerInterface;
 use CAS\Controller\LoginController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class LoginControllerFactory implements FactoryInterface
 {

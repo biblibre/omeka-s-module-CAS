@@ -25,10 +25,10 @@ use CAS\Entity\CasUser;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\User;
 use Omeka\Permissions\Acl;
-use Zend\Authentication\AuthenticationService;
-use Zend\Http\Client as HttpClient;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Session\Container;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
 
 class LoginController extends AbstractActionController
 {
