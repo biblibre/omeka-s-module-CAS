@@ -29,6 +29,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Client as HttpClient;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
+use Laminas\Uri\UriFactory;
 
 class LoginController extends AbstractActionController
 {
@@ -45,52 +46,64 @@ class LoginController extends AbstractActionController
 
     public function loginAction ()
     {
+        $redirectUrl = $this->params()->fromQuery('redirect_url');
+        if (isset($redirectUrl)) {
+            $session = Container::getDefaultManager()->getStorage();
+            $session->offsetSet('redirect_url', $redirectUrl);
+        }
+
+        $casUrl = UriFactory::factory(sprintf('%s/login', $this->settings()->get('cas_url')));
+        $query = [
+            'service' => $this->url()->fromRoute('cas/validate', [], ['force_canonical' => true]),
+        ];
+
+        $gateway = $this->params()->fromQuery('gateway');
+        if ($gateway) {
+            $query['gateway'] = 'true';
+        }
+
+        $casUrl->setQuery($query);
+
+        return $this->redirect()->toUrl($casUrl->toString());
+    }
+
+    public function validateAction()
+    {
+        $sessionManager = Container::getDefaultManager();
         $ticket = $this->params()->fromQuery('ticket');
-        if (!isset($ticket)) {
-            $redirectUrl = $this->params()->fromQuery('redirect_url');
-            if (isset($redirectUrl)) {
-                $session = Container::getDefaultManager()->getStorage();
-                $session->offsetSet('redirect_url', $redirectUrl);
+        if ($ticket) {
+            $response = $this->serviceValidate($ticket);
+            if (!$response->isOk()) {
+                $this->logger()->err('CAS ticket validation failed. CAS Server response: ' . $response->renderStatusLine());
+                $this->messenger()->addError($this->translate('Failed to validate CAS ticket'));
+                return $this->redirect()->toRoute('login');
             }
 
-            $casUrl = sprintf(
-                '%s/login?service=%s',
-                $this->settings()->get('cas_url'),
-                $this->url()->fromRoute('cas/login', [], ['force_canonical' => true])
-            );
-            return $this->redirect()->toUrl($casUrl);
+            $body = $response->getBody();
+            $xml = simplexml_load_string($body, 'SimpleXMLElement', 0, 'http://www.yale.edu/tp/cas');
+            $casResponse = json_decode(json_encode($xml), true);
+            if (!isset($casResponse['authenticationSuccess'])) {
+                $this->logger()->err('CAS ticket validation failed. CAS Server response: ' . $body);
+                $this->messenger()->addError($this->translate('Failed to validate CAS ticket'));
+                return $this->redirect()->toRoute('login');
+            }
+
+            $cas = $casResponse['authenticationSuccess'];
+
+            $user = $this->getUser($cas);
+            if (!$user->isActive()) {
+                $this->messenger()->addError($this->translate('User is inactive'));
+                return $this->redirect()->toRoute('login');
+            }
+
+            $sessionManager->regenerateId();
+
+            $this->authenticationService->getStorage()->write($user);
+            $this->getEventManager()->trigger('cas.user.login', $user, [
+                'user' => $cas['user'],
+                'attributes' => $cas['attributes'] ?? [],
+            ]);
         }
-
-        $response = $this->serviceValidate($this->params()->fromQuery('ticket'));
-        if (!$response->isOk()) {
-            $this->messenger()->addError($this->translate('Failed to validate CAS ticket'));
-            return $this->redirect()->toRoute('login');
-        }
-
-        $body = $response->getBody();
-        $xml = simplexml_load_string($body, 'SimpleXMLElement', 0, 'http://www.yale.edu/tp/cas');
-        $casResponse = json_decode(json_encode($xml), true);
-        if (!isset($casResponse['authenticationSuccess'])) {
-            $this->messenger()->addError($this->translate('Failed to validate CAS ticket'));
-            return $this->redirect()->toRoute('login');
-        }
-
-        $cas = $casResponse['authenticationSuccess'];
-
-        $user = $this->getUser($cas);
-        if (!$user->isActive()) {
-            $this->messenger()->addError($this->translate('User is inactive'));
-            return $this->redirect()->toRoute('login');
-        }
-
-        $sessionManager = Container::getDefaultManager();
-        $sessionManager->regenerateId();
-
-        $this->authenticationService->getStorage()->write($user);
-        $this->getEventManager()->trigger('cas.user.login', $user, [
-            'user' => $cas['user'],
-            'attributes' => $cas['attributes'] ?? [],
-        ]);
 
         $session = $sessionManager->getStorage();
         if ($redirectUrl = $session->offsetGet('redirect_url')) {
