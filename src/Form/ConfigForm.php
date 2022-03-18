@@ -52,5 +52,18 @@ class ConfigForm extends Form
                 'required' => true,
             ],
         ]);
+
+        $this->add([
+            'type' => 'Text',
+            'name' => 'user_id_attribute',
+            'options' => [
+                'label' => 'Attribute used as identifier', // @translate
+                'info' => 'If set, this attribute will be used as the unique user identifier to find the corresponding Omeka S user account', // @translate
+            ],
+            'attributes' => [
+                'id' => 'user_id_attribute',
+                'required' => false,
+            ],
+        ]);
     }
 }
