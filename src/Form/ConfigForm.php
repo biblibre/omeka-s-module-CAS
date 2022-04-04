@@ -65,5 +65,31 @@ class ConfigForm extends Form
                 'required' => false,
             ],
         ]);
+
+        $this->add([
+            'type' => 'Text',
+            'name' => 'user_name_attribute',
+            'options' => [
+                'label' => 'Attribute used as user name', // @translate
+                'info' => 'If set, this attribute will be used as the user name when creating a new Omeka S user account', // @translate
+            ],
+            'attributes' => [
+                'id' => 'user_name_attribute',
+                'required' => false,
+            ],
+        ]);
+
+        $this->add([
+            'type' => 'Text',
+            'name' => 'user_email_attribute',
+            'options' => [
+                'label' => 'Attribute used as user email', // @translate
+                'info' => 'If set, this attribute will be used as the user email when creating a new Omeka S user account', // @translate
+            ],
+            'attributes' => [
+                'id' => 'user_email_attribute',
+                'required' => false,
+            ],
+        ]);
     }
 }
