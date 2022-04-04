@@ -134,11 +134,25 @@ class LoginController extends AbstractActionController
             throw new \Exception('User identifier not found in CAS response');
         }
 
+        $user_name_attribute = $this->settings()->get('cas_user_name_attribute');
+        if ($user_name_attribute && isset($cas['attributes'][$user_name_attribute])) {
+            $cas_user_name = $cas['attributes'][$user_name_attribute];
+        } else {
+            $cas_user_name = $cas_user_id;
+        }
+
+        $user_email_attribute = $this->settings()->get('cas_user_email_attribute');
+        if ($user_email_attribute && isset($cas['attributes'][$user_email_attribute])) {
+            $cas_user_email = $cas['attributes'][$user_email_attribute];
+        } else {
+            $cas_user_email = $cas_user_id;
+        }
+
         $casUser = $em->find('CAS\Entity\CasUser', $cas_user_id);
         if (!$casUser) {
             $user = new User();
-            $user->setName($cas_user_id);
-            $user->setEmail($cas_user_id);
+            $user->setName($cas_user_name);
+            $user->setEmail($cas_user_email);
             $user->setRole($this->settings()->get('cas_role', Acl::ROLE_RESEARCHER));
             $user->setIsActive(true);
 

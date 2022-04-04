@@ -59,6 +59,8 @@ class Module extends AbstractModule
             'url' => $settings->get('cas_url'),
             'role' => $settings->get('cas_role'),
             'user_id_attribute' => $settings->get('cas_user_id_attribute'),
+            'user_name_attribute' => $settings->get('cas_user_name_attribute'),
+            'user_email_attribute' => $settings->get('cas_user_email_attribute'),
         ]);
 
         return $renderer->formCollection($form, false);
@@ -80,6 +82,8 @@ class Module extends AbstractModule
         $settings->set('cas_url', $formData['url']);
         $settings->set('cas_role', $formData['role']);
         $settings->set('cas_user_id_attribute', $formData['user_id_attribute']);
+        $settings->set('cas_user_name_attribute', $formData['user_name_attribute']);
+        $settings->set('cas_user_email_attribute', $formData['user_email_attribute']);
 
         return true;
     }
