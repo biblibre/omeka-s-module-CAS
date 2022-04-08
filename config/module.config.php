@@ -21,6 +21,11 @@ return [
             'CAS\Form\ConfigForm' => Form\ConfigForm::class,
         ],
     ],
+    'navigation_links' => [
+        'factories' => [
+            'casLoginUrl' => Service\Site\Navigation\Link\CasLoginUrlFactory::class,
+        ],
+    ],
     'router' => [
         'routes' => [
             'cas' => [

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   response
 - Allow to use CAS attributes as name and email when creating a new Omeka S
   user account
+- Add site navigation link
 
 ## [0.2.0] - 2021-07-02
 ### BREAKING CHANGES
