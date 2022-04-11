@@ -91,5 +91,17 @@ class ConfigForm extends Form
                 'required' => false,
             ],
         ]);
+
+        $this->add([
+            'type' => 'Checkbox',
+            'name' => 'show_login_link_in_user_bar',
+            'options' => [
+                'label' => 'Show CAS login link in user bar', // @translate
+            ],
+            'attributes' => [
+                'id' => 'show_login_link_in_user_bar',
+                'required' => false,
+            ],
+        ]);
     }
 }
