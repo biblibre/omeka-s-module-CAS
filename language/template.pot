@@ -1,0 +1,80 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-11 09:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Controller/LoginController.php:66 src/Controller/LoginController.php:74
+msgid "Failed to validate CAS ticket"
+msgstr ""
+
+#: src/Controller/LoginController.php:82
+msgid "User is inactive"
+msgstr ""
+
+#: view/common/user-bar.phtml:32
+msgid "Log in with CAS"
+msgstr ""
+
+#: view/omeka/login/login.phtml:9
+msgid "Log in using CAS"
+msgstr ""
+
+#: src/Form/ConfigForm.php:35
+msgid "URL of the CAS server"
+msgstr ""
+
+#: src/Form/ConfigForm.php:48
+msgid "Created users will have this role"
+msgstr ""
+
+#: src/Form/ConfigForm.php:60
+msgid "Attribute used as identifier"
+msgstr ""
+
+#: src/Form/ConfigForm.php:61
+msgid ""
+"If set, this attribute will be used as the unique user identifier to find "
+"the corresponding Omeka S user account"
+msgstr ""
+
+#: src/Form/ConfigForm.php:73
+msgid "Attribute used as user name"
+msgstr ""
+
+#: src/Form/ConfigForm.php:74
+msgid ""
+"If set, this attribute will be used as the user name when creating a new "
+"Omeka S user account"
+msgstr ""
+
+#: src/Form/ConfigForm.php:86
+msgid "Attribute used as user email"
+msgstr ""
+
+#: src/Form/ConfigForm.php:87
+msgid ""
+"If set, this attribute will be used as the user email when creating a new "
+"Omeka S user account"
+msgstr ""
+
+#: src/Form/ConfigForm.php:99
+msgid "Show CAS login link in user bar"
+msgstr ""
+
+#: src/Site/Navigation/Link/CasLoginUrl.php:19
+msgid "CAS Login URL"
+msgstr ""

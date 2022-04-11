@@ -51,6 +51,16 @@ return [
             ],
         ],
     ],
+    'translator' => [
+        'translation_file_patterns' => [
+            [
+                'type' => 'gettext',
+                'base_dir' => dirname(__DIR__) . '/language',
+                'pattern' => '%s.mo',
+                'text_domain' => null,
+            ],
+        ],
+    ],
     'view_helpers' => [
         'invokables' => [
             'casLoginUrl' => View\Helper\CasLoginUrl::class,
