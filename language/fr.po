@@ -1,0 +1,87 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2022 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-11 09:16+0000\n"
+"PO-Revision-Date: 2022-04-11 11:17+0200\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: src/Controller/LoginController.php:66 src/Controller/LoginController.php:74
+msgid "Failed to validate CAS ticket"
+msgstr "La validation du ticket CAS a échoué"
+
+#: src/Controller/LoginController.php:82
+msgid "User is inactive"
+msgstr "L'utilisateur est inactif"
+
+#: view/common/user-bar.phtml:32
+msgid "Log in with CAS"
+msgstr "Se connecter avec CAS"
+
+#: view/omeka/login/login.phtml:9
+msgid "Log in using CAS"
+msgstr "Se connecter avec CAS"
+
+#: src/Form/ConfigForm.php:35
+msgid "URL of the CAS server"
+msgstr "URL du serveur CAS"
+
+#: src/Form/ConfigForm.php:48
+msgid "Created users will have this role"
+msgstr "Les utilisateurs créés auront ce rôle"
+
+#: src/Form/ConfigForm.php:60
+msgid "Attribute used as identifier"
+msgstr "Attribut utilisé comme identifiant"
+
+#: src/Form/ConfigForm.php:61
+msgid ""
+"If set, this attribute will be used as the unique user identifier to find "
+"the corresponding Omeka S user account"
+msgstr ""
+"Si défini, cet attribut sera utilisé comme identifiant unique pour trouver "
+"le compte utilisateur Omeka S correspondant"
+
+#: src/Form/ConfigForm.php:73
+msgid "Attribute used as user name"
+msgstr "Attribut utilisé comme nom d'utilisateur"
+
+#: src/Form/ConfigForm.php:74
+msgid ""
+"If set, this attribute will be used as the user name when creating a new "
+"Omeka S user account"
+msgstr ""
+"Si défini, cet attribut sera utilisé comme nom d'utilisateur à la création "
+"d'un nouveau compte utilisateur Omeka S"
+
+#: src/Form/ConfigForm.php:86
+msgid "Attribute used as user email"
+msgstr "Attribut utilisé comme e-mail utilisateur"
+
+#: src/Form/ConfigForm.php:87
+msgid ""
+"If set, this attribute will be used as the user email when creating a new "
+"Omeka S user account"
+msgstr ""
+"Si défini, cet attribut sera utilisé comme e-mail utilisateur à la création "
+"d'un nouveau compte utilisateur Omeka S"
+
+#: src/Form/ConfigForm.php:99
+msgid "Show CAS login link in user bar"
+msgstr "Afficher le lien de connexion CAS dans la barre utilisateur"
+
+#: src/Site/Navigation/Link/CasLoginUrl.php:19
+msgid "CAS Login URL"
+msgstr "URL de connexion CAS"

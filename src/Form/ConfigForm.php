@@ -44,8 +44,8 @@ class ConfigForm extends Form
             'type' => 'Omeka\Form\Element\RoleSelect',
             'name' => 'role',
             'options' => [
-                'label' => 'Role',
-                'info' => 'Created users will have this role',
+                'label' => 'Role', // @translate
+                'info' => 'Created users will have this role', // @translate
             ],
             'attributes' => [
                 'id' => 'role',
