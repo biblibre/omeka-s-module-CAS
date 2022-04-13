@@ -49,6 +49,25 @@ class Module extends AbstractModule
         $connection->exec('DROP TABLE IF EXISTS cas_user');
     }
 
+    public function attachListeners($sharedEventManager)
+    {
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+        if ($settings->get('cas_show_login_link_in_user_bar', false)) {
+            $sharedEventManager->attach('*', 'view.layout', function ($event) {
+                $view = $event->getTarget();
+                if ($view->status()->isSiteRequest() && $view->identity() === null) {
+                    $view->headLink()->appendStylesheet($view->assetUrl('css/user-bar.css', 'CAS'));
+                    $currentUrl = $view->url(null, [], ['query' => $view->params()->fromQuery()], true);
+                    $CAS = [
+                        'login_url' => $view->casLoginUrl(['redirect_url' => $currentUrl]),
+                    ];
+                    $view->headScript()->appendScript(sprintf('const CAS = %s', json_encode($CAS)));
+                    $view->headScript()->appendFile($view->assetUrl('js/user-bar.js', 'CAS'));
+                }
+            });
+        }
+    }
+
     public function getConfigForm(PhpRenderer $renderer)
     {
         $formElementManager = $this->getServiceLocator()->get('FormElementManager');

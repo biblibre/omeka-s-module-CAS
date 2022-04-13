@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-11 09:16+0000\n"
+"POT-Creation-Date: 2022-04-13 09:32+0000\n"
 "PO-Revision-Date: 2022-04-11 11:17+0200\n"
 "Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
 "Language-Team: none\n"
@@ -26,12 +26,12 @@ msgstr "La validation du ticket CAS a échoué"
 msgid "User is inactive"
 msgstr "L'utilisateur est inactif"
 
-#: view/common/user-bar.phtml:32
-msgid "Log in with CAS"
-msgstr "Se connecter avec CAS"
-
 #: view/omeka/login/login.phtml:9
 msgid "Log in using CAS"
+msgstr "Se connecter avec CAS"
+
+#: config/module.config.php:25
+msgid "Log in with CAS"
 msgstr "Se connecter avec CAS"
 
 #: src/Form/ConfigForm.php:35
