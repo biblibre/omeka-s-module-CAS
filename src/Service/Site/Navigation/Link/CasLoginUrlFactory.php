@@ -2,7 +2,7 @@
 namespace CAS\Service\Site\Navigation\Link;
 
 use CAS\Site\Navigation\Link\CasLoginUrl;
-use Laminas\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class CasLoginUrlFactory implements FactoryInterface
