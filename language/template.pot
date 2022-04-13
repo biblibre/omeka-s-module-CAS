@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-11 09:16+0000\n"
+"POT-Creation-Date: 2022-04-13 09:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,12 +25,12 @@ msgstr ""
 msgid "User is inactive"
 msgstr ""
 
-#: view/common/user-bar.phtml:32
-msgid "Log in with CAS"
-msgstr ""
-
 #: view/omeka/login/login.phtml:9
 msgid "Log in using CAS"
+msgstr ""
+
+#: config/module.config.php:25
+msgid "Log in with CAS"
 msgstr ""
 
 #: src/Form/ConfigForm.php:35
