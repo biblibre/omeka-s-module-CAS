@@ -60,6 +60,7 @@ class Module extends AbstractModule
                     $currentUrl = $view->url(null, [], ['query' => $view->params()->fromQuery()], true);
                     $CAS = [
                         'login_url' => $view->casLoginUrl(['redirect_url' => $currentUrl]),
+                        'login_text' => $view->translate('Log in with CAS'),
                     ];
                     $view->headScript()->appendScript(sprintf('const CAS = %s', json_encode($CAS)));
                     $view->headScript()->appendFile($view->assetUrl('js/user-bar.js', 'CAS'));

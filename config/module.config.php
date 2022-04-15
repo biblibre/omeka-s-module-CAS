@@ -21,9 +21,6 @@ return [
             'CAS\Form\ConfigForm' => Form\ConfigForm::class,
         ],
     ],
-    'js_translate_strings' => [
-        'Log in with CAS', // @translate
-    ],
     'navigation_links' => [
         'factories' => [
             'casLoginUrl' => Service\Site\Navigation\Link\CasLoginUrlFactory::class,

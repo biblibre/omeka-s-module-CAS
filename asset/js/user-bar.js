@@ -6,7 +6,7 @@
         if (userBarLogin) {
             const loginWithCas = document.createElement('a');
             loginWithCas.href = CAS.login_url;
-            loginWithCas.innerText = Omeka.jsTranslate('Log in with CAS')
+            loginWithCas.innerText = CAS.login_text;
             loginWithCas.classList.add('login-with-cas');
             userBarLogin.insertAdjacentHTML('afterend', loginWithCas.outerHTML);
         }
