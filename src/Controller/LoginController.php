@@ -150,23 +150,35 @@ class LoginController extends AbstractActionController
 
         $casUser = $em->find('CAS\Entity\CasUser', $cas_user_id);
         if (!$casUser) {
-            $user = new User();
-            $user->setName($cas_user_name);
-            $user->setEmail($cas_user_email);
-            $user->setRole($this->settings()->get('cas_role', Acl::ROLE_RESEARCHER));
-            $user->setIsActive(true);
+            $user = $em->getRepository(User::class)->findOneBy(['email' => $cas_user_email]);
+            if (!$user) {
+                $user = new User();
+                $user->setName($cas_user_name);
+                $user->setEmail($cas_user_email);
+                $user->setRole($this->settings()->get('cas_role', Acl::ROLE_RESEARCHER));
+                $user->setIsActive(true);
+
+                $events->trigger('cas.user.create.pre', $user, $eventArgs);
+
+                $em->persist($user);
+                $em->flush();
+
+                $events->trigger('cas.user.create.post', $user, $eventArgs);
+            } else {
+                $events->trigger('cas.user.update.pre', $user, $eventArgs);
+
+                $em->persist($user);
+                $em->flush();
+
+                $events->trigger('cas.user.update.post', $user, $eventArgs);
+            }
 
             $casUser = new CasUser();
             $casUser->setId($cas_user_id);
             $casUser->setUser($user);
 
-            $events->trigger('cas.user.create.pre', $user, $eventArgs);
-
-            $em->persist($user);
             $em->persist($casUser);
             $em->flush();
-
-            $events->trigger('cas.user.create.post', $user, $eventArgs);
         } else {
             $user = $casUser->getUser();
 
