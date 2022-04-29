@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ability to pass a 'gateway' parameter to /cas/login that will be passed
   to the CAS Server login URL
 
+### Fixed
+
+- Search user by email before trying to create it (and fail because email should be unique)
+- Add login link to user bar using javascript to make it work when other
+  modules override the user bar template
+
 ## [0.3.0] - 2022-04-11
 
 ### Added
