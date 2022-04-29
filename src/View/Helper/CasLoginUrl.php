@@ -33,6 +33,9 @@ class CasLoginUrl extends AbstractHelper
         if (!empty($options['redirect_url'])) {
             $query['redirect_url'] = $options['redirect_url'];
         }
+        if (!empty($options['gateway'])) {
+            $query['gateway'] = $options['gateway'];
+        }
 
         return $view->url('cas/login', [], ['force_canonical' => true, 'query' => $query]);
     }

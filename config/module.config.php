@@ -50,6 +50,16 @@ return [
                             ],
                         ],
                     ],
+                    'validate' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/validate',
+                            'defaults' => [
+                                'controller' => 'Login',
+                                'action' => 'validate',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
