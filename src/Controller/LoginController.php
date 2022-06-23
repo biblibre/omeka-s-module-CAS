@@ -52,7 +52,7 @@ class LoginController extends AbstractActionController
             $session->offsetSet('redirect_url', $redirectUrl);
         }
 
-        $casUrl = UriFactory::factory(sprintf('%s/login', $this->settings()->get('cas_url')));
+        $casUrl = UriFactory::factory(sprintf('%s/login', $this->getCasUrlSetting()));
         $query = [
             'service' => $this->getServiceUrl(),
         ];
@@ -115,7 +115,7 @@ class LoginController extends AbstractActionController
 
     protected function serviceValidate($ticket)
     {
-        $serviceValidateUrl = $this->settings()->get('cas_url') . '/serviceValidate';
+        $serviceValidateUrl = $this->getCasUrlSetting() . '/serviceValidate';
         $httpClient = $this->httpClient;
         $httpClient->reset();
         $httpClient->setUri($serviceValidateUrl);
@@ -209,5 +209,10 @@ class LoginController extends AbstractActionController
     protected function getServiceUrl()
     {
         return $this->url()->fromRoute('cas/validate', [], ['force_canonical' => true]);
+    }
+
+    protected function getCasUrlSetting()
+    {
+        return trim($this->settings()->get('cas_url'));
     }
 }
