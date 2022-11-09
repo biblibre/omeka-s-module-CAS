@@ -8,10 +8,12 @@ use Omeka\Stdlib\ErrorStore;
 class CasLoginUrl implements LinkInterface
 {
     protected $authenticationService;
+    protected $request;
 
-    public function __construct($authenticationService)
+    public function __construct($authenticationService, $request)
     {
         $this->authenticationService = $authenticationService;
+        $this->request = $request;
     }
 
     public function getName()
@@ -42,10 +44,18 @@ class CasLoginUrl implements LinkInterface
 
     public function toZend(array $data, SiteRepresentation $site)
     {
-        return [
+        $link = [
             'route' => 'cas/login',
             'visible' => !$this->authenticationService->hasIdentity(),
         ];
+
+        if ($this->request instanceof \Laminas\Http\PhpEnvironment\Request) {
+            $link['query'] = [
+                'redirect_url' => $this->request->getRequestUri(),
+            ];
+        }
+
+        return $link;
     }
 
     public function toJstree(array $data, SiteRepresentation $site)
