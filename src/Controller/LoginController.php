@@ -44,7 +44,7 @@ class LoginController extends AbstractActionController
         $this->authenticationService = $authenticationService;
     }
 
-    public function loginAction ()
+    public function loginAction()
     {
         $redirectUrl = $this->params()->fromQuery('redirect_url');
         if (isset($redirectUrl)) {
