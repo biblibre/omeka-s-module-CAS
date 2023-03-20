@@ -79,6 +79,7 @@ class Module extends AbstractModule
             'user_name_attribute' => $settings->get('cas_user_name_attribute'),
             'user_email_attribute' => $settings->get('cas_user_email_attribute'),
             'show_login_link_in_user_bar' => $settings->get('cas_show_login_link_in_user_bar'),
+            'redirect_mode' => $settings->get('cas_redirect_mode'),
         ]);
 
         return $renderer->formCollection($form, false);
@@ -103,6 +104,7 @@ class Module extends AbstractModule
         $settings->set('cas_user_name_attribute', $formData['user_name_attribute']);
         $settings->set('cas_user_email_attribute', $formData['user_email_attribute']);
         $settings->set('cas_show_login_link_in_user_bar', $formData['show_login_link_in_user_bar']);
+        $settings->set('cas_redirect_mode', $formData['redirect_mode']);
 
         return true;
     }

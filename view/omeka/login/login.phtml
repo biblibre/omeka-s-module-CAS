@@ -1,9 +1,27 @@
 <?php
-$translate = $this->plugin('translate');
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Form\LoginForm $form
+ */
+
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$setting = $plugins->get('setting');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+
+$viaSession = $setting('cas_redirect_mode') === 'session';
+if ($viaSession) {
+    if (empty($_SERVER['HTTP_REFERER'])) {
+        $_SERVER['HTTP_REFERER'] = $url('top');
+    }
+    $_SESSION['url_after_cas_login'] = $_SERVER['HTTP_REFERER'];
+}
+
 $this->htmlElement('body')->appendAttribute('class', 'login');
 ?>
-<h1><?php echo $translate('Log in'); ?></h1>
-<?php echo $this->form($form); ?>
-<p class="forgot-password"><?php echo $this->hyperlink($translate('Forgot password?'), $this->url('forgot-password')); ?></p>
 
-<?php echo $this->hyperlink($this->translate('Log in using CAS'), $this->casLoginUrl()); ?>
+<h1><?= $translate('Log in') ?></h1>
+<?= $this->form($form) ?>
+<p class="forgot-password"><?= $hyperlink($translate('Forgot password?'), $url('forgot-password')) ?></p>
+<p class="login-cas"><?= $hyperlink($translate('Log in using CAS'), $this->casLoginUrl()) ?></p>
