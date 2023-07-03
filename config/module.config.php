@@ -21,6 +21,14 @@ return [
             dirname(__DIR__) . '/data/doctrine-proxies',
         ],
     ],
+    'view_helpers' => [
+        'invokables' => [
+            'casLoginUrl' => View\Helper\CasLoginUrl::class,
+        ],
+        'factories' => [
+            'isCasUser' => Service\ViewHelper\IsCasUserFactory::class,
+        ],
+    ],
     'form_elements' => [
         'invokables' => [
             'CAS\Form\ConfigForm' => Form\ConfigForm::class,
@@ -77,11 +85,6 @@ return [
                 'pattern' => '%s.mo',
                 'text_domain' => null,
             ],
-        ],
-    ],
-    'view_helpers' => [
-        'invokables' => [
-            'casLoginUrl' => View\Helper\CasLoginUrl::class,
         ],
     ],
     'view_manager' => [
