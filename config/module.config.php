@@ -8,6 +8,11 @@ return [
             'CAS\Controller\Login' => Service\Controller\LoginControllerFactory::class,
         ],
     ],
+    'controller_plugins' => [
+        'factories' => [
+            'isCasUser' => Service\ControllerPlugin\IsCasUserFactory::class,
+        ],
+    ],
     'entity_manager' => [
         'mapping_classes_paths' => [
             dirname(__DIR__) . '/src/Entity',
