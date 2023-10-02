@@ -110,8 +110,10 @@ class ConfigForm extends Form
             'options' => [
                 'label' => 'Redirect mode', // @translate
                 'value_options' => [
-                    'query' => 'Query argument', // @translate
+                    'query' => 'Query argument ("redirect_url")', // @translate
                     'session' => 'Session value', // @translate
+                    'query_then_session' => 'Query argument or session value', // @translate
+                    'session_then_query' => 'Session value or query argument', // @translate
                 ],
             ],
             'attributes' => [
