@@ -46,14 +46,23 @@ class LoginController extends AbstractActionController
 
     public function loginAction()
     {
-        if ($this->settings()->get('cas_redirect_mode') === 'session') {
-            $redirectUrl = $_SESSION['url_after_cas_login'] ?? null;
-        }
-        if (empty($redirectUrl)) {
-            $redirectUrl = $this->params()->fromQuery('redirect_url');
+        $redirectQuery = $this->params()->fromQuery('redirect_url') ?: null;
+        $redirectSession = $_SESSION['url_after_cas_login'] ?? null;
+
+        $mode = $this->settings()->get('cas_redirect_mode');
+        if ($mode === 'query') {
+            $redirectUrl = $redirectQuery;
+        } elseif ($mode === 'session') {
+            $redirectUrl = $redirectSession;
+        } elseif ($mode === 'query_then_session') {
+            $redirectUrl = $redirectQuery ?? $redirectSession;
+        } elseif ($mode === 'session_then_query') {
+            $redirectUrl = $redirectSession ?? $redirectQuery;
+        } else {
+            $redirectUrl = null;
         }
 
-        if (isset($redirectUrl)) {
+        if ($redirectUrl) {
             $session = Container::getDefaultManager()->getStorage();
             $session->offsetSet('redirect_url', $redirectUrl);
         }
