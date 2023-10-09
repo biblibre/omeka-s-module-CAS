@@ -46,22 +46,7 @@ class LoginController extends AbstractActionController
 
     public function loginAction()
     {
-        $redirectQuery = $this->params()->fromQuery('redirect_url') ?: null;
-        $redirectSession = $_SESSION['url_after_cas_login'] ?? null;
-
-        $mode = $this->settings()->get('cas_redirect_mode');
-        if ($mode === 'query') {
-            $redirectUrl = $redirectQuery;
-        } elseif ($mode === 'session') {
-            $redirectUrl = $redirectSession;
-        } elseif ($mode === 'query_then_session') {
-            $redirectUrl = $redirectQuery ?? $redirectSession;
-        } elseif ($mode === 'session_then_query') {
-            $redirectUrl = $redirectSession ?? $redirectQuery;
-        } else {
-            $redirectUrl = null;
-        }
-
+        $redirectUrl = $this->getRedirectUrl();
         if ($redirectUrl) {
             $session = Container::getDefaultManager()->getStorage();
             $session->offsetSet('redirect_url', $redirectUrl);
@@ -120,12 +105,14 @@ class LoginController extends AbstractActionController
             ]);
         }
 
-        $session = $sessionManager->getStorage();
-        if ($redirectUrl = $session->offsetGet('redirect_url')) {
+        $redirectUrl = $this->getRedirectUrl();
+        if ($redirectUrl) {
             return $this->redirect()->toUrl($redirectUrl);
         }
 
-        return $this->redirect()->toRoute('admin');
+        return $this->userIsAllowed('Omeka\Controller\Admin\Index', 'browse')
+            ? $this->redirect()->toRoute('admin')
+            : $this->redirect()->toRoute('top');
     }
 
     protected function serviceValidate($ticket)
@@ -229,5 +216,24 @@ class LoginController extends AbstractActionController
     protected function getCasUrlSetting()
     {
         return trim($this->settings()->get('cas_url'));
+    }
+
+    protected function getRedirectUrl(): ?string
+    {
+        $redirectQuery = $this->params()->fromQuery('redirect_url') ?: null;
+        $redirectSession = Container::getDefaultManager()->getStorage()->offsetGet('redirect_url');
+
+        $mode = $this->settings()->get('cas_redirect_mode');
+        if ($mode === 'query') {
+            return $redirectQuery;
+        } elseif ($mode === 'session') {
+            return $redirectSession;
+        } elseif ($mode === 'query_then_session') {
+            return $redirectQuery ?? $redirectSession;
+        } elseif ($mode === 'session_then_query') {
+            return $redirectSession ?? $redirectQuery;
+        } else {
+            return null;
+        }
     }
 }
