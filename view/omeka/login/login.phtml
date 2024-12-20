@@ -6,4 +6,5 @@ $this->htmlElement('body')->appendAttribute('class', 'login');
 <?php echo $this->form($form); ?>
 <p class="forgot-password"><?php echo $this->hyperlink($translate('Forgot password?'), $this->url('forgot-password')); ?></p>
 
-<?php echo $this->hyperlink($this->translate('Log in using CAS'), $this->casLoginUrl()); ?>
+<?php $redirect_url = $this->params()->fromQuery('redirect_url'); ?>
+<?= $this->hyperlink($this->translate('Log in using CAS'), $this->casLoginUrl(['redirect_url' => $redirect_url])) ?>
