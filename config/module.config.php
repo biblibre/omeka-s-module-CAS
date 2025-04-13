@@ -8,12 +8,25 @@ return [
             'CAS\Controller\Login' => Service\Controller\LoginControllerFactory::class,
         ],
     ],
+    'controller_plugins' => [
+        'factories' => [
+            'isCasUser' => Service\ControllerPlugin\IsCasUserFactory::class,
+        ],
+    ],
     'entity_manager' => [
         'mapping_classes_paths' => [
             dirname(__DIR__) . '/src/Entity',
         ],
         'proxy_paths' => [
             dirname(__DIR__) . '/data/doctrine-proxies',
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            'casLoginUrl' => View\Helper\CasLoginUrl::class,
+        ],
+        'factories' => [
+            'isCasUser' => Service\ViewHelper\IsCasUserFactory::class,
         ],
     ],
     'form_elements' => [
@@ -72,11 +85,6 @@ return [
                 'pattern' => '%s.mo',
                 'text_domain' => null,
             ],
-        ],
-    ],
-    'view_helpers' => [
-        'invokables' => [
-            'casLoginUrl' => View\Helper\CasLoginUrl::class,
         ],
     ],
     'view_manager' => [
