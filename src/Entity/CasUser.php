@@ -36,7 +36,7 @@ class CasUser extends AbstractEntity
     protected $id;
 
     /**
-     * @OneToOne(targetEntity="Omeka\Entity\User")
+     * @ManyToOne(targetEntity="Omeka\Entity\User")
      * @JoinColumn(onDelete="cascade", nullable=false)
      */
     protected $user;

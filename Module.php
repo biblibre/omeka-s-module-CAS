@@ -21,6 +21,7 @@
 
 namespace CAS;
 
+use Composer\Semver\Comparator;
 use Omeka\Module\AbstractModule;
 use Laminas\Mvc\Controller\AbstractController;
 use Laminas\Mvc\MvcEvent;
@@ -37,7 +38,7 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $services)
     {
         $connection = $services->get('Omeka\Connection');
-        $connection->exec('CREATE TABLE cas_user (id VARCHAR(255) NOT NULL, user_id INT NOT NULL, UNIQUE INDEX UNIQ_8DA51140A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $connection->exec('CREATE TABLE cas_user (id VARCHAR(255) NOT NULL, user_id INT NOT NULL, INDEX IDX_8DA51140A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $connection->exec('ALTER TABLE cas_user ADD CONSTRAINT FK_8DA51140A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
     }
 
@@ -45,6 +46,18 @@ class Module extends AbstractModule
     {
         $connection = $services->get('Omeka\Connection');
         $connection->exec('DROP TABLE IF EXISTS cas_user');
+    }
+
+    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
+    {
+        $connection = $serviceLocator->get('Omeka\Connection');
+
+        if (Comparator::lessThan($oldVersion, '0.6.2')) {
+            $connection->exec('ALTER TABLE cas_user DROP CONSTRAINT FK_8DA51140A76ED395');
+            $connection->exec('ALTER TABLE cas_user DROP INDEX UNIQ_8DA51140A76ED395');
+            $connection->exec('ALTER TABLE cas_user ADD INDEX IDX_8DA51140A76ED395 (user_id)');
+            $connection->exec('ALTER TABLE cas_user ADD CONSTRAINT FK_8DA51140A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
+        }
     }
 
     public function attachListeners($sharedEventManager)
