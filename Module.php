@@ -40,12 +40,14 @@ class Module extends AbstractModule
         $connection = $services->get('Omeka\Connection');
         $connection->exec('CREATE TABLE cas_user (id VARCHAR(255) NOT NULL, user_id INT NOT NULL, INDEX IDX_8DA51140A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $connection->exec('ALTER TABLE cas_user ADD CONSTRAINT FK_8DA51140A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
+        $connection->exec('CREATE TABLE cas_ticket (ticket VARCHAR(255) NOT NULL, session_id VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_A28BE1D7613FECDF (session_id), PRIMARY KEY(ticket)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
 
     public function uninstall(ServiceLocatorInterface $services)
     {
         $connection = $services->get('Omeka\Connection');
         $connection->exec('DROP TABLE IF EXISTS cas_user');
+        $connection->exec('DROP TABLE IF EXISTS cas_ticket');
     }
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
@@ -57,6 +59,10 @@ class Module extends AbstractModule
             $connection->exec('ALTER TABLE cas_user DROP INDEX UNIQ_8DA51140A76ED395');
             $connection->exec('ALTER TABLE cas_user ADD INDEX IDX_8DA51140A76ED395 (user_id)');
             $connection->exec('ALTER TABLE cas_user ADD CONSTRAINT FK_8DA51140A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
+        }
+
+        if (Comparator::lessThan($oldVersion, '0.7.0')) {
+            $connection->exec('CREATE TABLE IF NOT EXISTS cas_ticket (ticket VARCHAR(255) NOT NULL, session_id VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_A28BE1D7613FECDF (session_id), PRIMARY KEY(ticket)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         }
     }
 
@@ -92,6 +98,8 @@ class Module extends AbstractModule
             'user_name_attribute' => $settings->get('cas_user_name_attribute'),
             'user_email_attribute' => $settings->get('cas_user_email_attribute'),
             'show_login_link_in_user_bar' => $settings->get('cas_show_login_link_in_user_bar'),
+            'global_logout' => $settings->get('cas_global_logout'),
+            'logout_redirect_service' => $settings->get('cas_logout_redirect_service'),
         ]);
 
         return $renderer->formCollection($form, false);
@@ -116,6 +124,8 @@ class Module extends AbstractModule
         $settings->set('cas_user_name_attribute', $formData['user_name_attribute']);
         $settings->set('cas_user_email_attribute', $formData['user_email_attribute']);
         $settings->set('cas_show_login_link_in_user_bar', $formData['show_login_link_in_user_bar']);
+        $settings->set('cas_global_logout', !empty($formData['global_logout']));
+        $settings->set('cas_logout_redirect_service', trim((string) ($formData['logout_redirect_service'] ?? '')));
 
         return true;
     }
@@ -128,6 +138,10 @@ class Module extends AbstractModule
         $acl->allow(
             null,
             'CAS\Controller\Login'
+        );
+        $acl->allow(
+            null, 
+            'CAS\Controller\Slo'
         );
     }
 }

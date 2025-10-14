@@ -21,8 +21,9 @@
 
 namespace CAS\Service\Controller;
 
-use Interop\Container\ContainerInterface;
 use CAS\Controller\LoginController;
+use CAS\Session\TicketStorage;
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class LoginControllerFactory implements FactoryInterface
@@ -32,7 +33,8 @@ class LoginControllerFactory implements FactoryInterface
         return new LoginController(
             $services->get('Omeka\HttpClient'),
             $services->get('Omeka\EntityManager'),
-            $services->get('Omeka\AuthenticationService')
+            $services->get('Omeka\AuthenticationService'),
+            $services->get(TicketStorage::class)
         );
     }
 }

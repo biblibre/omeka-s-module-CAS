@@ -103,5 +103,31 @@ class ConfigForm extends Form
                 'required' => false,
             ],
         ]);
+
+        $this->add([
+            'type' => 'Checkbox',
+            'name' => 'global_logout',
+            'options' => [
+                'label' => 'Enable CAS global logout', // @translate
+                'info' => 'Redirect local logouts to CAS to terminate the global session.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'global_logout',
+                'required' => false,
+            ],
+        ]);
+
+        $this->add([
+            'type' => 'Text',
+            'name' => 'logout_redirect_service',
+            'options' => [
+                'label' => 'Logout redirect service URL', // @translate
+                'info' => 'Optional URL the CAS server should redirect to after logout. Defaults to the Omeka S homepage.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'logout_redirect_service',
+                'required' => false,
+            ],
+        ]);
     }
 }

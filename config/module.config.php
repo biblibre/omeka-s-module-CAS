@@ -6,6 +6,16 @@ return [
     'controllers' => [
         'factories' => [
             'CAS\Controller\Login' => Service\Controller\LoginControllerFactory::class,
+            'CAS\Controller\Slo' => Service\Controller\SloControllerFactory::class,
+        ],
+    ],
+    'listeners' => [
+        Listener\UserLogoutListener::class,
+    ],
+    'service_manager' => [
+        'factories' => [
+            Listener\UserLogoutListener::class => Service\Listener\UserLogoutListenerFactory::class,
+            Session\TicketStorage::class => Service\Session\TicketStorageFactory::class,
         ],
     ],
     'entity_manager' => [
@@ -49,6 +59,17 @@ return [
                                 'action' => 'login',
                             ],
                         ],
+                    ],
+                    'slo' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/slo',
+                            'defaults' => [
+                                'controller' => 'Slo',
+                                'action' => 'receive',
+                            ],
+                        ],
+                        'may_terminate' => true,
                     ],
                     'validate' => [
                         'type' => 'Literal',

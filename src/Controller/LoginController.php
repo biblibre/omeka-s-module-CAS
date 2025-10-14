@@ -22,6 +22,7 @@
 namespace CAS\Controller;
 
 use CAS\Entity\CasUser;
+use CAS\Session\TicketStorage;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\User;
 use Omeka\Permissions\Acl;
@@ -36,12 +37,14 @@ class LoginController extends AbstractActionController
     protected $httpClient;
     protected $entityManager;
     protected $authenticationService;
+    protected $ticketStorage;
 
-    public function __construct(HttpClient $httpClient, EntityManager $entityManager, AuthenticationService $authenticationService)
+    public function __construct(HttpClient $httpClient, EntityManager $entityManager, AuthenticationService $authenticationService, TicketStorage $ticketStorage)
     {
         $this->httpClient = $httpClient;
         $this->entityManager = $entityManager;
         $this->authenticationService = $authenticationService;
+        $this->ticketStorage = $ticketStorage;
     }
 
     public function loginAction()
@@ -98,11 +101,24 @@ class LoginController extends AbstractActionController
 
             $sessionManager->regenerateId();
 
+            $sessionManager->start();
+            $sessionId = $sessionManager->getId();
+            $this->ticketStorage->store($ticket, $sessionId);
+
             $this->authenticationService->getStorage()->write($user);
             $this->getEventManager()->trigger('cas.user.login', $user, [
                 'user' => $cas['user'],
                 'attributes' => $cas['attributes'] ?? [],
             ]);
+
+            $session = $sessionManager->getStorage();
+            $storedTickets = $session->offsetExists('cas_service_tickets')
+                ? (array) $session->offsetGet('cas_service_tickets')
+                : [];
+            if (!in_array($ticket, $storedTickets, true)) {
+                $storedTickets[] = $ticket;
+                $session->offsetSet('cas_service_tickets', $storedTickets);
+            }
         }
 
         $session = $sessionManager->getStorage();
