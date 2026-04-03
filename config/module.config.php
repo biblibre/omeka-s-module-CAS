@@ -17,8 +17,8 @@ return [
         ],
     ],
     'form_elements' => [
-        'factories' => [
-            'CAS\Form\ConfigForm' => Service\Form\ConfigFormFactory::class,
+        'invokables' => [
+            'CAS\Form\ConfigForm' => Form\ConfigForm::class,
         ],
     ],
     'js_translate_strings' => [

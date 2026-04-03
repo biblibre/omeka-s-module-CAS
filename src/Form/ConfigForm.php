@@ -22,12 +22,9 @@
 namespace CAS\Form;
 
 use Laminas\Form\Form;
-use Omeka\Module\Manager as ModuleManager;
 
 class ConfigForm extends Form
 {
-    protected ModuleManager $moduleManager;
-
     public function init()
     {
         $this->add([
@@ -95,22 +92,6 @@ class ConfigForm extends Form
             ],
         ]);
 
-        if ($this->isModuleActive('Group')) {
-            $this->add([
-                'name' => 'groups',
-                'type' => 'Group\Form\Element\GroupSelect',
-                'options' => [
-                    'label' => 'Groups', // @translate
-                    'info' => 'Created users will be in these groups', // @translate
-                ],
-                'attributes' => [
-                    'multiple' => true,
-                    'class' => 'chosen-select',
-                    'data-placeholder' => 'Select groups', // @translate
-                ],
-            ]);
-        }
-
         $this->add([
             'type' => 'Checkbox',
             'name' => 'show_login_link_in_user_bar',
@@ -122,27 +103,5 @@ class ConfigForm extends Form
                 'required' => false,
             ],
         ]);
-    }
-
-    public function setModuleManager(ModuleManager $moduleManager): void
-    {
-        $this->moduleManager = $moduleManager;
-    }
-
-    public function getModuleManager(): ModuleManager
-    {
-        return $this->moduleManager;
-    }
-
-    protected function isModuleActive(string $moduleName): bool
-    {
-        $moduleManager = $this->getModuleManager();
-        if ($moduleManager->isRegistered($moduleName)) {
-            $module = $moduleManager->getModule($moduleName);
-
-            return $module->getState() === ModuleManager::STATE_ACTIVE;
-        }
-
-        return false;
     }
 }
