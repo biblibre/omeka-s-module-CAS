@@ -24,6 +24,7 @@ namespace CAS\Controller;
 use CAS\Entity\CasUser;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\User;
+use Omeka\Module\Manager as ModuleManager;
 use Omeka\Permissions\Acl;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Client as HttpClient;
@@ -36,12 +37,14 @@ class LoginController extends AbstractActionController
     protected $httpClient;
     protected $entityManager;
     protected $authenticationService;
+    protected ModuleManager $moduleManager;
 
-    public function __construct(HttpClient $httpClient, EntityManager $entityManager, AuthenticationService $authenticationService)
+    public function __construct(HttpClient $httpClient, EntityManager $entityManager, AuthenticationService $authenticationService, ModuleManager $moduleManager)
     {
         $this->httpClient = $httpClient;
         $this->entityManager = $entityManager;
         $this->authenticationService = $authenticationService;
+        $this->moduleManager = $moduleManager;
     }
 
     public function loginAction()
@@ -177,6 +180,10 @@ class LoginController extends AbstractActionController
 
                 $events->trigger('cas.user.create.pre', $user, $eventArgs);
 
+                if ($this->isModuleActive('Group')) {
+                    $this->assignGroupsToUser($user);
+                }
+
                 $em->persist($user);
                 $em->flush();
 
@@ -218,5 +225,30 @@ class LoginController extends AbstractActionController
     protected function getCasUrlSetting()
     {
         return trim($this->settings()->get('cas_url'));
+    }
+
+    protected function isModuleActive(string $moduleName): bool
+    {
+        if ($this->moduleManager->isRegistered($moduleName)) {
+            $module = $this->moduleManager->getModule($moduleName);
+
+            return $module->getState() === ModuleManager::STATE_ACTIVE;
+        }
+
+        return false;
+    }
+
+    protected function assignGroupsToUser(User $user): void
+    {
+        $groupIds = $this->settings()->get('cas_groups', []);
+        foreach ($groupIds as $groupId) {
+            $group = $this->entityManager->find('Group\Entity\Group', $groupId);
+            if ($group) {
+                $groupUser = new \Group\Entity\GroupUser($group, $user);
+                $group->getGroupUsers()->add($groupUser);
+            } else {
+                $this->logger()->warn(sprintf('CAS: Failed to assign user to non-existing group #%d', $groupId));
+            }
+        }
     }
 }
