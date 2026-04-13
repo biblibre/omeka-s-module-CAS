@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface;
 
 class CasLoginUrlFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $authenticationService = $container->get('Omeka\AuthenticationService');
         $request = $container->get('Request');
