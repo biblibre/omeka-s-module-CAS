@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-13 09:32+0000\n"
+"POT-Creation-Date: 2026-04-13 07:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Controller/LoginController.php:66 src/Controller/LoginController.php:74
+#: src/Controller/LoginController.php:81 src/Controller/LoginController.php:90
 msgid "Failed to validate CAS ticket"
 msgstr ""
 
-#: src/Controller/LoginController.php:82
+#: src/Controller/LoginController.php:98
 msgid "User is inactive"
 msgstr ""
 
-#: view/omeka/login/login.phtml:9
+#: view/omeka/login/login.phtml:10
 msgid "Log in using CAS"
 msgstr ""
 
@@ -33,48 +33,60 @@ msgstr ""
 msgid "Log in with CAS"
 msgstr ""
 
-#: src/Form/ConfigForm.php:35
+#: src/Form/ConfigForm.php:38
 msgid "URL of the CAS server"
 msgstr ""
 
-#: src/Form/ConfigForm.php:48
+#: src/Form/ConfigForm.php:51
 msgid "Created users will have this role"
 msgstr ""
 
-#: src/Form/ConfigForm.php:60
+#: src/Form/ConfigForm.php:63
 msgid "Attribute used as identifier"
 msgstr ""
 
-#: src/Form/ConfigForm.php:61
+#: src/Form/ConfigForm.php:64
 msgid ""
 "If set, this attribute will be used as the unique user identifier to find "
 "the corresponding Omeka S user account"
 msgstr ""
 
-#: src/Form/ConfigForm.php:73
+#: src/Form/ConfigForm.php:76
 msgid "Attribute used as user name"
 msgstr ""
 
-#: src/Form/ConfigForm.php:74
+#: src/Form/ConfigForm.php:77
 msgid ""
 "If set, this attribute will be used as the user name when creating a new "
 "Omeka S user account"
 msgstr ""
 
-#: src/Form/ConfigForm.php:86
+#: src/Form/ConfigForm.php:89
 msgid "Attribute used as user email"
 msgstr ""
 
-#: src/Form/ConfigForm.php:87
+#: src/Form/ConfigForm.php:90
 msgid ""
 "If set, this attribute will be used as the user email when creating a new "
 "Omeka S user account"
 msgstr ""
 
-#: src/Form/ConfigForm.php:99
+#: src/Form/ConfigForm.php:103
+msgid "Groups"
+msgstr ""
+
+#: src/Form/ConfigForm.php:104
+msgid "Created users will be in these groups"
+msgstr ""
+
+#: src/Form/ConfigForm.php:109
+msgid "Select groups"
+msgstr ""
+
+#: src/Form/ConfigForm.php:118
 msgid "Show CAS login link in user bar"
 msgstr ""
 
-#: src/Site/Navigation/Link/CasLoginUrl.php:19
+#: src/Site/Navigation/Link/CasLoginUrl.php:21
 msgid "CAS Login URL"
 msgstr ""
