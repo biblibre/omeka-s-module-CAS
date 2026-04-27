@@ -3,6 +3,11 @@
 namespace CAS;
 
 return [
+    'controller_plugins' => [
+        'factories' => [
+            'cas' => Service\Mvc\Controller\Plugin\CasFactory::class,
+        ]
+    ],
     'controllers' => [
         'factories' => [
             'CAS\Controller\Login' => Service\Controller\LoginControllerFactory::class,
@@ -64,6 +69,11 @@ return [
             ],
         ],
     ],
+    'service_manager' => [
+        'factories' => [
+            'CAS\CasService' => Service\CasServiceFactory::class,
+        ],
+    ],
     'translator' => [
         'translation_file_patterns' => [
             [
@@ -77,6 +87,9 @@ return [
     'view_helpers' => [
         'invokables' => [
             'casLoginUrl' => View\Helper\CasLoginUrl::class,
+        ],
+        'factories' => [
+            'cas' => Service\View\Helper\CasFactory::class,
         ],
     ],
     'view_manager' => [

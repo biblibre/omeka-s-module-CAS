@@ -70,7 +70,7 @@ class Module extends AbstractModule
                     $view->headLink()->appendStylesheet($view->assetUrl('css/user-bar.css', 'CAS'));
                     $currentUrl = $view->url(null, [], ['query' => $view->params()->fromQuery()], true);
                     $CAS = [
-                        'login_url' => $view->casLoginUrl(['redirect_url' => $currentUrl]),
+                        'login_url' => $view->cas()->loginUrl(['redirect_url' => $currentUrl]),
                     ];
                     $view->headScript()->appendScript(sprintf('const CAS = %s', json_encode($CAS)));
                     $view->headScript()->appendFile($view->assetUrl('js/user-bar.js', 'CAS'));

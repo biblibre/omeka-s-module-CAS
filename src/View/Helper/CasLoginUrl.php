@@ -25,18 +25,15 @@ use Laminas\View\Helper\AbstractHelper;
 
 class CasLoginUrl extends AbstractHelper
 {
+    /**
+     * Deprecated. Kept for backward compatibility
+     *
+     * Use $view->cas()->loginUrl($options) instead
+     */
     public function __invoke(array $options = [])
     {
         $view = $this->getView();
 
-        $query = [];
-        if (!empty($options['redirect_url'])) {
-            $query['redirect_url'] = $options['redirect_url'];
-        }
-        if (!empty($options['gateway'])) {
-            $query['gateway'] = $options['gateway'];
-        }
-
-        return $view->url('cas/login', [], ['force_canonical' => true, 'query' => $query]);
+        return $view->cas()->loginUrl($options);
     }
 }
