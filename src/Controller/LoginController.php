@@ -151,7 +151,10 @@ class LoginController extends AbstractActionController
         }
 
         if (!isset($cas_user_id)) {
-            throw new \Exception('User identifier not found in CAS response');
+            throw new \Exception(sprintf('User identifier not found in CAS response: %s', json_encode($cas)));
+        }
+        if (empty($cas_user_id)) {
+            throw new \Exception(sprintf('User identifier empty in CAS response: %s', json_encode($cas)));
         }
 
         $user_name_attribute = $this->settings()->get('cas_user_name_attribute');
