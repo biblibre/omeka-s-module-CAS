@@ -4,11 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.8.1] - 2026-06-23
 
 - Add more info to the exception thrown when user identifier cannot be found
 
-## [0.8.0]
+## [0.8.0] - 2026-04-27
 
 - Add `CAS\CasService` service, accessible through `cas` view helper and `cas`
   controller plugin. It provides a new method `isCasUser` which checks if a
@@ -94,6 +94,7 @@ required is still 3.0.0
 
 Initial release
 
+[0.8.1]: https://github.com/biblibre/omeka-s-module-CAS/releases/tag/v0.8.1
 [0.8.0]: https://github.com/biblibre/omeka-s-module-CAS/releases/tag/v0.8.0
 [0.7.0]: https://github.com/biblibre/omeka-s-module-CAS/releases/tag/v0.7.0
 [0.6.3]: https://github.com/biblibre/omeka-s-module-CAS/releases/tag/v0.6.3
